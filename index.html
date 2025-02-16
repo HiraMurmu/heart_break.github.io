@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Broken Heart Animation</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: #ffe6e6;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .heart {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 80px;
+            background: #ff4d4d;
+            border-radius: 50px 50px 0 0;
+            transition: all 0.3s ease;
+        }
+
+        .heart::before {
+            left: 50px;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+
+        .heart::after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+
+        .broken {
+            position: absolute;
+            opacity: 0;
+            width: 60px;
+            height: 60px;
+            transition: all 0.3s ease;
+        }
+
+        .message {
+            opacity: 0;
+            font-size: 24px;
+            color: #cc0000;
+            margin-top: 20px;
+            transition: all 1s ease;
+        }
+
+        .fall {
+            animation: fall 2s forwards;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .show-message {
+            opacity: 1;
+        }
+
+        .crack {
+            position: absolute;
+            width: 100%;
+            height: 4px;
+            background: white;
+            top: 50%;
+            left: 0;
+            transform: rotate(45deg);
+            opacity: 0;
+        }
+
+        .break .crack {
+            opacity: 1;
+        }
+
+        .break::before,
+        .break::after {
+            transform: rotate(-90deg) translateY(20px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="heart" onclick="breakHeart()">
+            <div class="crack"></div>
+        </div>
+        <div class="message" id="message">Heart Broken... 💔</div>
+    </div>
+
+    <script>
+        function breakHeart() {
+            const heart = document.querySelector('.heart');
+            const message = document.getElementById('message');
+            
+            // Add break animation
+            heart.classList.add('break');
+            
+            // Add fall animation after short delay
+            setTimeout(() => {
+                heart.classList.add('fall');
+            }, 300);
+
+            // Show message after animation starts
+            setTimeout(() => {
+                message.classList.add('show-message');
+            }, 500);
+
+            // Remove click event after first use
+            heart.style.pointerEvents = 'none';
+        }
+    </script>
+</body>
+</html>
